@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CA Services</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
+    <string name="terms">By clicking SignUp you are agree to our <b>Terms</b> and <b>Privacy</b> </string>
+
+</resources>

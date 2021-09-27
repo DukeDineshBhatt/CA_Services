@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="Registration"
+        android:icon="@drawable/ic_baseline_home_24"/>
+
+    <item
+        android:id="@+id/request"
+        android:title="Compliance"
+        android:icon="@drawable/request"/>
+
+    <item
+        android:id="@+id/offers"
+        android:title="License"
+        android:icon="@drawable/offers"/>
+
+    <item
+        android:id="@+id/partners"
+        android:title="Legal"
+        android:icon="@drawable/partners"/>
+
+</menu>

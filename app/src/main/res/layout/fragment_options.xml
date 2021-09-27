@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OptionsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="Sub Category 3"
+            android:layout_marginStart="4dp"
+            android:textColor="#1E1D1D"
+            android:textSize="16sp"></TextView>
+
+        <Button
+            android:id="@+id/btn_def"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="Definition"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btn_benifit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="Benefits"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btn_req"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="Purchase Service"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btn_doc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="Documents Required"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btn_faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="0dp"
+            android:paddingTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:paddingBottom="8dp"
+            android:text="FAQ"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp">
+
+        </Button>
+    </LinearLayout>
+</FrameLayout>
