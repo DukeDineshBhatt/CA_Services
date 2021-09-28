@@ -19,7 +19,7 @@ public class FormActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Request");
+        getSupportActionBar().setTitle("Purchase Service");
         toolbar.setTitleTextColor(Color.WHITE);
 
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
