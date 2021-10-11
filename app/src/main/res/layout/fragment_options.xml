@@ -6,7 +6,23 @@
     android:background="@color/background"
     tools:context=".OptionsFragment">
 
-    <LinearLayout
+
+    <TableLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1db995"></TableLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabLayout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -114,5 +130,5 @@
             android:textSize="16sp">
 
         </Button>
-    </LinearLayout>
+    </LinearLayout>-->
 </FrameLayout>
