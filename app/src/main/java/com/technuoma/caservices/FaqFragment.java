@@ -1,25 +1,25 @@
 package com.technuoma.caservices;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BenefitsFragment extends Fragment {
 
-    public BenefitsFragment() {
+public class FaqFragment extends Fragment {
+
+    public FaqFragment() {
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view =  inflater.inflate(R.layout.fragment_benefits, container, false);
-
-
-
-        return view;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_faq, container, false);
     }
 }

@@ -1,8 +1,10 @@
 package com.technuoma.caservices;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +25,53 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageUploadActivity extends AppCompatActivity {
+public class ImageUploadActivity extends Fragment {
 
     private Toolbar toolbar;
     Button btn_upload;
     RecyclerView image_recycler;
     CategoryAdapter adapter1;
     ArrayList<Category> category_list;
+    OptionsFragment mainActivity;
+
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_image_upload, container, false);
+
+        mainActivity = (OptionsFragment) getActivity();
+
+        btn_upload = view.findViewById(R.id.btn_upload);
+
+        image_recycler = view.findViewById(R.id.image_recycler);
+
+        category_list = new ArrayList<>();
+        category_list.add(new Category("image-123002.jpg"));
+        category_list.add(new Category("image-123002.jpg"));
+
+        adapter1 = new CategoryAdapter(mainActivity, category_list);
+
+        LinearLayoutManager manager = new LinearLayoutManager(mainActivity);
+
+        image_recycler.setAdapter(adapter1);
+        image_recycler.setLayoutManager(manager);
+
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(mainActivity, StatusActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        return view;
+
+    }
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_upload);
@@ -74,13 +115,14 @@ public class ImageUploadActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
 
     class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
         Context context;
         List<Category> list = new ArrayList<>();
+
 
         public CategoryAdapter(Context context, List<Category> list) {
             this.context = context;
@@ -92,10 +134,11 @@ public class ImageUploadActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @NonNull
         @Override
         public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(mainActivity.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.img_list_model, parent, false);
             return new CategoryAdapter.ViewHolder(view);
         }

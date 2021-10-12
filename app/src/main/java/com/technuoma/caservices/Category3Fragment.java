@@ -96,16 +96,16 @@ public class Category3Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                   /* Intent intent = new Intent(getActivity(), ImageUploadActivity.class);
-                    startActivity(intent);*/
+                    Intent intent = new Intent(getActivity(), OptionsFragment.class);
+                    startActivity(intent);
 
-                    FragmentManager fm3 = getActivity().getSupportFragmentManager();
+                   /* FragmentManager fm3 = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft3 = fm3.beginTransaction();
                     ft3.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     OptionsFragment frag13 = new OptionsFragment();
                     ft3.replace(R.id.flFragment, frag13);
                     ft3.addToBackStack(null);
-                    ft3.commit();
+                    ft3.commit();*/
 
                 }
             });
