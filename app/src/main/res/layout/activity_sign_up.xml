@@ -104,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:hint="name"
+                    android:id="@+id/name"
                     android:inputType="textPersonName">
 
                 </EditText>
@@ -122,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:hint="email"
+                    android:id="@+id/email"
                     android:inputType="textEmailAddress">
 
                 </EditText>
@@ -140,7 +142,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:hint="password"
+                    android:id="@+id/password"
                     android:inputType="textPassword">
+
+                </EditText>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Mobile No">
+
+                </TextView>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:hint="mobile no"
+                    android:id="@+id/phone"
+                    android:inputType="phone">
 
                 </EditText>
 
