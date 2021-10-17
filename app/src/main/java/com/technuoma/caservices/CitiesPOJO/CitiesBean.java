@@ -1,9 +1,11 @@
-package com.technuoma.caservices.SignInPOJO;
+package com.technuoma.caservices.CitiesPOJO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SignInBean {
+import java.util.List;
+
+public class CitiesBean {
     @SerializedName("message")
     @Expose
     private String message;
@@ -12,7 +14,7 @@ public class SignInBean {
     private String status;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private List<Datum> data = null;
 
     public String getMessage() {
         return message;
@@ -30,11 +32,11 @@ public class SignInBean {
         this.status = status;
     }
 
-    public Data getData() {
+    public List<Datum> getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(List<Datum> data) {
         this.data = data;
     }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -36,13 +38,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         toolbar.setTitleTextColor(Color.WHITE);
         getSupportActionBar().setTitle(R.string.app_name);
 
+        SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("hasCity", true);
+        editor.commit();
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(MainActivity.this);
         bottomNavigationView.setSelectedItemId(R.id.home);
-
-        // Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         drawerLayout = findViewById(R.id.my_drawer_layout);
 

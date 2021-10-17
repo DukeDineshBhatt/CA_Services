@@ -2,7 +2,6 @@ package com.technuoma.caservices;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,8 +13,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.content.Context;
 
-import com.technuoma.SharePreferenceUtils;
 import com.technuoma.caservices.LoginPOJO.Data;
 import com.technuoma.caservices.LoginPOJO.LoginBean;
 
@@ -83,8 +83,8 @@ public class SignInActivity extends AppCompatActivity {
 
                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                        SiginRequest body = new SiginRequest();
-                        SigninRequestData body1 = new SigninRequestData();
+                        LoginRequest body = new LoginRequest();
+                        LoginRequestData body1 = new LoginRequestData();
 
                         body1.setEmail(email);
                         body1.setPassword(password);
@@ -101,21 +101,25 @@ public class SignInActivity extends AppCompatActivity {
 
                                     Data item = response.body().getData();
 
-                                    SharePreferenceUtils.getInstance().saveString("id", item.getUserId());
-                                    SharePreferenceUtils.getInstance().saveString("name", item.getName());
-                                    SharePreferenceUtils.getInstance().saveString("email", item.getEmail());
-                                    SharePreferenceUtils.getInstance().saveString("mobile", item.getMobile());
+                                    SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = mPrefs.edit();
+                                    editor.putString("user_id", item.getUserId());
+                                    editor.putString("name", item.getName());
+                                    editor.putString("email", item.getEmail());
+                                    editor.putString("mobile", item.getMobile());
+                                    editor.putBoolean("hasLoggedIn", true); //this line will do trick
+                                    editor.commit();
 
                                     progressBar.setVisibility(View.GONE);
 
-                                    Intent intent = new Intent(SignInActivity.this, Cities.class);
+                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                     //intent.putExtra("id" , item.getId());
                                     startActivity(intent);
                                     finishAffinity();
 
                                 } else {
 
-                                    Toast.makeText(SignInActivity.this, "Try Again!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignInActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     progressBar.setVisibility(View.GONE);
                                 }
 
@@ -134,15 +138,19 @@ public class SignInActivity extends AppCompatActivity {
 
                     } else {
 
-                        Toast.makeText(SignInActivity.this, "Please enter correct password", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
+                        et_password.setError("Enter password");
+                        et_password.requestFocus();
+                        return;
                     }
 
 
                 } else {
-                    Toast.makeText(SignInActivity.this, "Please enter correct email", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
 
+                    progressBar.setVisibility(View.GONE);
+                    et_email.setError("Enter email");
+                    et_email.requestFocus();
+                    return;
 
                 }
 

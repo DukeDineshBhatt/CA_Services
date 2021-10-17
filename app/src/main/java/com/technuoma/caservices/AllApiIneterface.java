@@ -1,5 +1,6 @@
 package com.technuoma.caservices;
 
+import com.technuoma.caservices.CitiesPOJO.CitiesBean;
 import com.technuoma.caservices.LoginPOJO.LoginBean;
 import com.technuoma.caservices.SignInPOJO.SignInBean;
 
@@ -14,7 +15,19 @@ public interface AllApiIneterface {
 
     @POST("api.php")
     Call<LoginBean> login(
+            @Body LoginRequest body
+
+    );
+
+    @POST("api.php")
+    Call<SignInBean> sigin(
             @Body SiginRequest body
+
+    );
+
+    @POST("api.php")
+    Call<CitiesBean> cities(
+            @Body CitiesRequest body
 
     );
 

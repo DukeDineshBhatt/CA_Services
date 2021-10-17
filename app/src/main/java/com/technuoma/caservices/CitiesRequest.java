@@ -3,13 +3,13 @@ package com.technuoma.caservices;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SiginRequest {
+public class CitiesRequest {
     @SerializedName("action")
     @Expose
     private String action;
     @SerializedName("data")
     @Expose
-    private SiginRequestData data;
+    private CitiesRequestData data;
 
     public String getAction() {
         return action;
@@ -19,11 +19,11 @@ public class SiginRequest {
         this.action = action;
     }
 
-    public SiginRequestData getData() {
+    public CitiesRequestData getData() {
         return data;
     }
 
-    public void setData(SiginRequestData data) {
+    public void setData(CitiesRequestData data) {
         this.data = data;
     }
 

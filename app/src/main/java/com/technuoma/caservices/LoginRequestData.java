@@ -3,7 +3,7 @@ package com.technuoma.caservices;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SigninRequestData {
+public class LoginRequestData {
 
     @SerializedName("email")
     @Expose
