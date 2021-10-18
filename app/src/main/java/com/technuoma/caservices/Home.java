@@ -1,9 +1,11 @@
 package com.technuoma.caservices;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -18,16 +20,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.technuoma.caservices.CitiesPOJO.CitiesBean;
+import com.technuoma.caservices.ServicesPOJO.Datum;
+import com.technuoma.caservices.ServicesPOJO.ServicesBean;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class Home extends Fragment {
@@ -35,9 +50,13 @@ public class Home extends Fragment {
     String url1 = "https://previews.123rf.com/images/varijanta/varijanta1604/varijanta160400071/55847737-modern-thin-line-design-concept-for-tax-website-banner-vector-illustration-concept-for-finance-accou.jpg";
     String url2 = "https://previews.123rf.com/images/varijanta/varijanta1604/varijanta160400071/55847737-modern-thin-line-design-concept-for-tax-website-banner-vector-illustration-concept-for-finance-accou.jpg";
 
+    String user_id;
     RecyclerView cat, cat1, cat2, cat3;
     CategoryAdapter adapter1;
-    ArrayList<Category> category_list;
+
+    ProgressBar progressBar;
+
+    List<Datum> list;
 
     Category1Adapter adapter2;
     ArrayList<Category1> cat1_list;
@@ -61,6 +80,9 @@ public class Home extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
 
+        SharedPreferences shared = mainActivity.getSharedPreferences("myAppPrefs", MODE_PRIVATE);
+        user_id = (shared.getString("user_id", ""));
+
         SliderView sliderView = view.findViewById(R.id.slider);
 
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
@@ -80,14 +102,11 @@ public class Home extends Fragment {
         cat1 = view.findViewById(R.id.cat1);
         cat2 = view.findViewById(R.id.cat2);
         cat3 = view.findViewById(R.id.cat3);
+        progressBar = view.findViewById(R.id.progressBar);
 
-        category_list = new ArrayList<>();
-        category_list.add(new Category("Category 1"));
-        category_list.add(new Category("Category 1"));
-        category_list.add(new Category("Category 1"));
-        category_list.add(new Category("Category 1"));
+        list = new ArrayList<>();
 
-        adapter1 = new CategoryAdapter(getActivity(), category_list);
+        adapter1 = new CategoryAdapter(getActivity(), list);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 4);
 
@@ -143,18 +162,62 @@ public class Home extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getContext().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        ServicesRequest body = new ServicesRequest();
+        ServicesRequestData body1 = new ServicesRequestData();
+
+        body1.setUserId(user_id);
+        body.setData(body1);
+        body.setAction("all_service");
+
+        Call<ServicesBean> call = cr.services(body);
+
+        call.enqueue(new Callback<ServicesBean>() {
+            @Override
+            public void onResponse(@NotNull Call<ServicesBean> call, @NotNull Response<ServicesBean> response) {
+
+                adapter1.setData(response.body().getData());
+
+                progressBar.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ServicesBean> call, @NotNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
 
     class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
         Context context;
-        List<Category> list = new ArrayList<>();
+        List<Datum> list;
 
-        public CategoryAdapter(Context context, List<Category> list) {
+        public CategoryAdapter(Context context,  List<Datum> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Category> list) {
+        public void setData( List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -170,7 +233,7 @@ public class Home extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-            final Category item = list.get(position);
+            final Datum item = list.get(position);
 
             holder.name.setText(item.getName());
 

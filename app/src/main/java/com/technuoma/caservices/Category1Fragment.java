@@ -1,8 +1,10 @@
 package com.technuoma.caservices;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,18 +18,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.technuoma.caservices.Category1POJO.Category1Bean;
+import com.technuoma.caservices.Category1POJO.Datum;
+import com.technuoma.caservices.ServicesPOJO.ServicesBean;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class Category1Fragment extends Fragment {
 
     RecyclerView cat;
     Category1Adapter adapter2;
-    ArrayList<Category1> cat1_list;
     MainActivity mainActivity;
+
+    List<Datum> list;
+    String user_id;
+    ProgressBar progressBar;
 
     public Category1Fragment() {
     }
@@ -35,22 +54,19 @@ public class Category1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_category1, container, false);
-
-
-        cat = view.findViewById(R.id.cat);
+        View view = inflater.inflate(R.layout.fragment_category1, container, false);;
 
         mainActivity = (MainActivity) getActivity();
 
-        cat1_list = new ArrayList<>();
-        cat1_list.add(new Category1("Category 1"));
-        cat1_list.add(new Category1("Category 1"));
-        cat1_list.add(new Category1("Category 1"));
-        cat1_list.add(new Category1("Category 1"));
-        cat1_list.add(new Category1("Category 1"));
-        cat1_list.add(new Category1("Category 1"));
+        SharedPreferences shared = mainActivity.getSharedPreferences("myAppPrefs", MODE_PRIVATE);
+        user_id = (shared.getString("user_id", ""));
 
-        adapter2 = new Category1Adapter(mainActivity, cat1_list);
+        cat = view.findViewById(R.id.cat);
+        progressBar = view.findViewById(R.id.progressBar);
+
+        list = new ArrayList<>();
+
+        adapter2 = new Category1Adapter(mainActivity, list);
 
         GridLayoutManager manager1 = new GridLayoutManager(getActivity(), 3);
 
@@ -60,18 +76,62 @@ public class Category1Fragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getContext().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Category1Request body = new Category1Request();
+        Category1RequestData body1 = new Category1RequestData();
+
+        body1.setUserId(user_id);
+        body.setData(body1);
+        body.setAction("category_list");
+
+        Call<Category1Bean> call = cr.category1(body);
+
+        call.enqueue(new Callback<Category1Bean>() {
+            @Override
+            public void onResponse(@NotNull Call<Category1Bean> call, @NotNull Response<Category1Bean> response) {
+
+                adapter2.setData(response.body().getData());
+
+                progressBar.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Category1Bean> call, @NotNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
 
     class Category1Adapter extends RecyclerView.Adapter<Category1Adapter.ViewHolder> {
 
         Context context;
-        List<Category1> list = new ArrayList<>();
+        List<Datum> list;
 
-        public Category1Adapter(Context context, List<Category1> list) {
+        public Category1Adapter(Context context,List<Datum> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Category1> list) {
+        public void setData(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -88,7 +148,7 @@ public class Category1Fragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull Category1Adapter.ViewHolder holder, int position) {
 
-            final Category1 item = list.get(position);
+            final Datum item = list.get(position);
 
             holder.name.setText(item.getName());
 
@@ -99,6 +159,11 @@ public class Category1Fragment extends Fragment {
                     FragmentManager fm4 = mainActivity.getSupportFragmentManager();
                     FragmentTransaction ft4 = fm4.beginTransaction();
                     Category2Fragment frag14 = new Category2Fragment();
+
+                    Bundle args = new Bundle();
+                    args.putString("catId", item.getId());
+                    frag14.setArguments(args);
+
                     ft4.replace(R.id.flFragment, frag14);
                     ft4.addToBackStack(null);
                     ft4.commit();

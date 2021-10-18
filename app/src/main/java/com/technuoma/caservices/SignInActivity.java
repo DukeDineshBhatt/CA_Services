@@ -107,12 +107,12 @@ public class SignInActivity extends AppCompatActivity {
                                     editor.putString("name", item.getName());
                                     editor.putString("email", item.getEmail());
                                     editor.putString("mobile", item.getMobile());
-                                    editor.putBoolean("hasLoggedIn", true); //this line will do trick
+                                    //editor.putBoolean("hasLoggedIn", true);
                                     editor.commit();
 
                                     progressBar.setVisibility(View.GONE);
 
-                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(SignInActivity.this, SelectCityActivity.class);
                                     //intent.putExtra("id" , item.getId());
                                     startActivity(intent);
                                     finishAffinity();
